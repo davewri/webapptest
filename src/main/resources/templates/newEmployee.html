@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link Bootstrap 4 from CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Add new employee records</title>
+</head>
+<body>
+<!--/*/ <th:block th:include="fragments/navigation :: navigation"></th:block> /*/-->
+<p></p>
+<p></p>
+<!-- Bootstrap-->
+<div class="container">
+    <!-- Content row with 2 columns-->
+    <div class="row">
+        <!-- Column 1 - job titles List -->
+        <div class="col-sm-1">
+
+        </div> <!-- End job titles col-->
+
+        <!-- Column 2 - Employee List -->
+        <div class="col-sm-8">
+            <h3>Add Employee</h3>
+            <!-- https://getbootstrap.com/docs/4.0/components/forms/ -->
+            <form th:object="${employee}" th:action="@{/newEmployee}" method="post" class="needs-validation">
+                <input type="hidden" th:field="*{EmployeeId}"/>
+                <div class="form-group">
+                    <label for="EmployeeName">Employee Name</label>
+                    <input th:field="*{EmployeeName}" type="text" class="form-control" placeholder=""  required>
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input th:field="*{Email}" type="text" class="form-control" placeholder=""  required>
+                </div>
+                <div class="form-group">
+                    <label for="Telephone">Telephone</label>
+                    <input th:field="*{Telephone}" type="text" class="form-control" placeholder=""  required>
+                </div>
+                <div class="form-group">
+                    <label for="jobTitle">Job Title</label>
+                    <select th:field="*{TitleId}" class="form-control" required>
+                        <option value="0">choose title</option>
+                        <option th:each="job : ${titles}"
+                                th:value="${job.titleId}"
+                                th:utext="${job.titleType}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startYear">Start Year</label>
+                    <input th:field="*{startYear}" type="number" class="form-control" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <input th:field="*{department}" type="text" class="form-control" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="university">University</label>
+                    <input th:field="*{university}" type="text" class="form-control" placeholder="" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div> <!-- End Employees col -->
+    </div> <!-- End row -->
+</div> <!-- End container -->
+
+<!-- JavaScript dependencies for Bootstrap 4-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<div th:insert="~{fragments/footer :: footer}">...</div>
+</body>
+</html>

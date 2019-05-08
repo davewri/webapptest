@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!--/*/ <th:block th:include="fragments/header :: head"></th:block> /*/-->
+    <title>Employee Listings</title>
+</head>
+
+<body>
+<!--/*/ <th:block th:include="fragments/navigation :: navigation"></th:block> /*/-->
+
+<!-- Bootstrap Container-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <ul class="list-group" th:if="${not #lists.isEmpty(titles)}">
+                <li class="list-group-item"><a href="/employee/?job=0">All</a></li>
+                <!-- Repeating <li> - for each job title -->
+                <li class="list-group-item" th:each="title : ${titles}">
+                    <a href="#" th:href="@{'/employee/?job=' + ${title.titleId}}" th:text="${title.titleType}"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-9">
+            <h3>Employee Listing</h3>
+
+            <!-- Search box-->
+            <!-- mb-4 BootStrap class adds a bottom margin -->
+            <div class="mb-4"> <!-- https://getbootstrap.com/docs/4.0/utilities/spacing/ -->
+                <!-- https://getbootstrap.com/docs/4.0/components/forms/ -->
+                <form th:action="@{/searchEmployees}" method="get" class="form-inline needs-validation">
+                    <div class="form-group">
+                        <input id="search" name="search" type="text" class="form-control" placeholder="search employees"  required>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+                </form>
+            </div>
+
+            <!-- mb-4 BootStrap class adds a bottom margin -->
+            <!-- https://www.w3schools.com/bootstrap4/bootstrap_buttons.asp -->
+            <!-- If set (value not null) then show the message from flash -->
+            <div th:if="${message} != null" class="alert alert-success alert-dismissible fade show mb-2">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h6 th:text="${message}"></h6>
+            </div>
+
+            <!-- If set (value not null) then show the error from flash -->
+            <div th:if="${error} != null" class="alert alert-danger alert-dismissible fade show mb-2">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h6 th:text="${error}"></h6>
+            </div>
+
+            <!-- Add table if the employees list contains employees-->
+            <!-- Bootstrap: https://getbootstrap.com/docs/4.0/content/tables/-->
+            <table class="table table-bordered table-hover" th:if="${not #lists.isEmpty(employees)}">
+                <thead>
+                <tr>
+                    <th style="text-align:center;">Id</th>
+                    <th style="text-align:left;">Employee Name</th>
+                    <th style="text-align:left;">Email Address</th>
+                    <th style="text-align:left;">Phone Number</th>
+                    <th style="text-align:center;">Start Year</th>
+                    <th style="text-align:center;">Department</th>
+                    <th style="text-align:center;">University</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td style="text-align:center;" th:text="${employee.employeeId}"></td>
+                    <td style="text-align:left;" th:text="${employee.employeeName}">Employee Name</td>
+                    <td style="text-align:left;" th:text="${employee.email}">Email</td>
+                    <td style="text-align:left;" th:text="${employee.telephone}">Telephone</td>
+                    <td style="text-align:center;" th:text="${employee.startYear}">Start Year</td>
+                    <td style="text-align:center;" th:text="${employee.department}">Department</td>
+                    <td style="text-align:center;" th:text="${employee.university}">University</td>
+                    <td><a th:href="@{'/updateEmployee/?id=' + ${employee.EmployeeId}}" class="btn-sm btn-danger" role="button"><span class="oi oi-pencil"></span></a></td>
+                    <td><a th:href="@{'/deleteEmployee/?id=' + ${employee.EmployeeId}}" onclick="return confirmDelete();" class="btn-sm btn-danger" role="button"><span class="oi oi-trash"></span></a></td>
+                </tr>
+                </tbody>
+            </table>
+            <p>
+                <a href="/newEmployee" th:href="@{/newEmployee}" class="btn btn-outline-primary" role="button">Add Employee</a>
+            </p>
+        </div> <!-- End Employee col -->
+    </div> <!-- End row -->
+</div> <!-- End container -->
+<!-- JavaScript dependencies for Bootstrap 4-->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script>
+        // JavaScript function returns true if user clicks yes, otherwise, false
+        // true - proceed (open link)
+        // false - cancel
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete the employee?');
+        }
+    </script>
+
+<div th:insert="~{fragments/footer :: footer}">...</div>
+</body>
+</html>
